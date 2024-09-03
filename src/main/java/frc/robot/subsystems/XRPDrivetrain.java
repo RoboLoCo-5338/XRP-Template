@@ -45,10 +45,6 @@ public class XRPDrivetrain extends SubsystemBase {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
 
-  public void tankDrive(double leftSpeed, double rightSpeed){
-    m_diffDrive.tankDrive(leftSpeed, rightSpeed);
-  }
-
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();

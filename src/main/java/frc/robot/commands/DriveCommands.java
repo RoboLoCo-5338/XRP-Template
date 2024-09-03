@@ -4,11 +4,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** A file that should contain all the commands that relate to the drivetrain. */
 public class DriveCommands {
@@ -31,16 +33,19 @@ public class DriveCommands {
        * }
       */
       //The first parameter is what happens upon initialization of the command, aka what should prepare the robot for the command to occur.
-      //Causes the XRP to stop to prepare for movement.
-      () -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0), 
+      //Causes the XRP to stop to prepare for movement, and resets the sensors that detect how much the wheels have turned.
+      () -> {
+        RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0); 
+        RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
       
       //The second parameter is what is called every time the scheduler runs while the command is scheduled., aka what the main portion of the command is.
       //Causes the XRP to drive.
-      () -> RobotContainer.m_xrpDrivetrain.tankDrive(1, 1),
+      () -> RobotContainer.m_xrpDrivetrain.arcadeDrive(1, 0),
 
       //The third parameter is what happens upon ending the command.
       //Causes the XRP to stop.
-      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
+      interrupted -> RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0),
 
       //The fourth parameter is the boolean that determines if the command ended.
       //Checks if the average distance traveled by both of the wheels is at least the distance the XRP needs to travel.
@@ -77,11 +82,12 @@ public class DriveCommands {
 
     /** 
      * Called when the command is initially scheduled.
-     * Sets the XRP's speed to zero to prepare it for moving.
+     * Sets the XRP's speed to zero to prepare it for moving, and resets the sensors that detect how much the wheels have turned.
      */
     @Override
     public void initialize() {
-      RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0);
+      RobotContainer.m_xrpDrivetrain.resetEncoders();
     }
 
     /** 
@@ -90,7 +96,7 @@ public class DriveCommands {
      */
     @Override
     public void execute() {
-      RobotContainer.m_xrpDrivetrain.tankDrive(1, 1);
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(1, 0);
     }
 
     /** 
@@ -99,7 +105,7 @@ public class DriveCommands {
      */
     @Override
     public void end(boolean interrupted) {
-      RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0);
     }
 
     /** 
@@ -111,5 +117,98 @@ public class DriveCommands {
       return Math.abs(RobotContainer.m_xrpDrivetrain.getAverageDistanceInch()) >= distance;
     }
 
+  }
+
+  /**
+   * A command that sets the speed of the robot based on an arcade control scheme, using an Instant Command.
+   * @param forwardSpeed Speed the robot goes forward.
+   * @param turnSpeed Speed the robot turns.
+   * @return Command to arcade drive the XRP
+   */
+  public Command arcadeDriveCommand(double forwardSpeed, double turnSpeed){
+    //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
+    //and the required subsystems.
+    //Useful for simple commands.
+    return new InstantCommand(
+      //Tells the XRP to drive at the given speeds
+      ()->RobotContainer.m_xrpDrivetrain.arcadeDrive(forwardSpeed, turnSpeed), 
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
+
+  public class TurnDegrees extends Command {
+    private final double m_degrees;
+    private final double m_speed;
+    private final XRPDrivetrain m_drive;
+    /**
+     * Creates a new TurnDegrees. This command will turn your robot for a desired rotation (in
+     * degrees) and rotational speed.
+     *
+     * @param speed The speed which the robot will drive. Negative is in reverse.
+     * @param degrees Degrees to turn. Leverages encoders to compare distance.
+     * @param drive The drive subsystem on which this command will run
+     */
+    public TurnDegrees(double speed, double degrees) {
+      m_degrees = degrees;
+      m_speed = speed;
+      m_drive = RobotContainer.m_xrpDrivetrain;
+      addRequirements(m_drive);
+    }
+  
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+      // Set motors to stop, read encoder values for starting point
+      m_drive.arcadeDrive(0, 0);
+      m_drive.resetEncoders();
+    }
+  
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+      m_drive.arcadeDrive(0, m_speed);
+    }
+  
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+      m_drive.arcadeDrive(0, 0);
+    }
+  
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      /* Need to convert distance travelled to degrees. The Standard
+         XRP Chassis found here, https://www.sparkfun.com/products/22230,
+         has a wheel placement diameter (163 mm) - width of the wheel (8 mm) = 155 mm
+         or 6.102 inches. We then take into consideration the width of the tires.
+      */
+      double inchPerDegree = Math.PI * 6.102 / 360;
+      // Compare distance travelled from start to distance based on degree turn
+      return getAverageTurningDistance() >= (inchPerDegree * m_degrees);
+    }
+  
+    private double getAverageTurningDistance() {
+      double leftDistance = Math.abs(m_drive.getLeftDistanceInch());
+      double rightDistance = Math.abs(m_drive.getRightDistanceInch());
+      return (leftDistance + rightDistance) / 2.0;
+    }
+  }
+
+  //TODO: Task 1-Rewrite TurnDegrees as a function
+  //Code here:
+
+
+
+  /**
+   * Commands can also be sequential, which is where they execute one after another. This is really good for automatic behavior.
+   * @return A command that drives forward 5 inches, turns 90 degrees, and drives forward 4 inches.
+   */
+  public Command sequentialExampleCommand(){
+    return new SequentialCommandGroup(
+      driveDistance(5),
+      new TurnDegrees(1, 90),
+      driveDistance(4)
+    );
   }
 }
