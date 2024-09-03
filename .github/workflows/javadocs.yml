@@ -23,6 +23,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           java-version: "22"
           project: "gradle"
-          branch: "main"
     
 
