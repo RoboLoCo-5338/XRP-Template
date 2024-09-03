@@ -20,7 +20,7 @@ public class DriveCommands {
    * @param distance Distance that the XRP drives in inches
    * @return Command that causes the XRP to execute the functions below
    */
-  public Command driveDistance(double distance){
+  public static Command driveDistance(double distance){
     //A functional command is returned. A functional command is a basic command with parameters for initialization code, execution code, ending code, a boolean supplier to cause the command to end, and required subsystems.
     return new FunctionalCommand(
       /* 
@@ -63,7 +63,7 @@ public class DriveCommands {
    * Usage is basically the same, however add new in front of the function call.
    * Example: new DriveCommands.AltDriveDistance(5)
    */
-  public class AltDriveDistance extends Command{
+  public static class AltDriveDistance extends Command{
     /**
      * Distance in inches the command makes the XRP move.
      */
@@ -125,7 +125,7 @@ public class DriveCommands {
    * @param turnSpeed Speed the robot turns.
    * @return Command to arcade drive the XRP
    */
-  public Command arcadeDriveCommand(double forwardSpeed, double turnSpeed){
+  public static Command arcadeDriveCommand(double forwardSpeed, double turnSpeed){
     //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
     //and the required subsystems.
     //Useful for simple commands.
@@ -136,7 +136,7 @@ public class DriveCommands {
       );
   }
 
-  public class TurnDegrees extends Command {
+  public static class TurnDegrees extends Command {
     private final double m_degrees;
     private final double m_speed;
     private final XRPDrivetrain m_drive;
@@ -204,11 +204,17 @@ public class DriveCommands {
    * Commands can also be sequential, which is where they execute one after another. This is really good for automatic behavior.
    * @return A command that drives forward 5 inches, turns 90 degrees, and drives forward 4 inches.
    */
-  public Command sequentialExampleCommand(){
+  public static Command sequentialExampleCommand(){
     return new SequentialCommandGroup(
       driveDistance(5),
-      new TurnDegrees(1, 90),
+      new DriveCommands.TurnDegrees(1, 90),
       driveDistance(4)
     );
   }
+
+  //TODO: Task 6-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
+  //is less than 2 inches.
+
+  //TODO: Task 7-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
+  //and move the XRP forward 3 inches.
 }
