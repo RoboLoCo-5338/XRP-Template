@@ -45,6 +45,9 @@ public class XRPDrivetrain extends SubsystemBase {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
 
+  //TODO:Task 2-Write a function that makes the robot take in a left wheel speed and a right wheel speed, and move at those speeds.
+  //HINT:This is called a tank drive, maybe there is a function that can easily allow for it?
+
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();

@@ -7,5 +7,5 @@ public class Rangefinder {
     public Rangefinder(){
         rangefinder=new XRPRangefinder();
     }
-    //TODO:Task 5-Write a method to get the distance returned by the sensor in inches
+    //TODO: Task 8-Write a method to get the distance returned by the sensor in inches
 }

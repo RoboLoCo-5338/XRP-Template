@@ -198,7 +198,10 @@ public class DriveCommands {
   //TODO: Task 1-Rewrite TurnDegrees as a function
   //Code here:
 
-
+  //TODO: Task 3-Rewrite the following functions to use tank drive
+  //driveDistance or AltDriveDistance(choose 1)
+  //arcadeDriveCommand(rename as tankDriveCommand)
+  //TurnDegrees(either class or function, choose 1)
 
   /**
    * Commands can also be sequential, which is where they execute one after another. This is really good for automatic behavior.
@@ -212,9 +215,9 @@ public class DriveCommands {
     );
   }
 
-  //TODO: Task 6-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
+  //TODO: Task 9-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
   //is less than 2 inches.
 
-  //TODO: Task 7-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
+  //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
   //and move the XRP forward 3 inches.
 }

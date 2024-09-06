@@ -31,7 +31,11 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    //The default command is the command that executes if no other command is using the specified subsystem.
+    //This causes the xrp to drive based on the left joystick y and right joystick x of the controller by default.
     m_xrpDrivetrain.setDefaultCommand(DriveCommands.arcadeDriveCommand(m_controller.getLeftY(), m_controller.getRightX()));
+    //TODO: Task 4-Comment out the above line by adding // to the left of it. Then, set the default command to be your tankDriveCommand.
+    //HINT: In tank drive, the left wheel is controlled by the y axis of the left joystick and the y axis of the right joystick.
   }
 
   /**
@@ -41,7 +45,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //TODO:Task 4-Replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
+    //TODO: Task 7-Replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
     //and the a button moves it down.
     m_controller.y().whileTrue(null);
 
