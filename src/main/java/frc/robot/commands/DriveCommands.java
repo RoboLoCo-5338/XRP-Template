@@ -216,8 +216,8 @@ public class DriveCommands {
   }
 
   //TODO: Task 9-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
-  //is less than 2 inches.
+  //is less than 2 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
 
   //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
-  //and move the XRP forward 3 inches.
+  //and move the XRP forward 3 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
 }

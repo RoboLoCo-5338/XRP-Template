@@ -45,11 +45,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //TODO: Task 7-Replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
+    //TODO: Task 7-Uncomment the lines below and replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
     //and the a button moves it down.
-    m_controller.y().whileTrue(null);
-
-    m_controller.a().whileTrue(null);
+    // m_controller.y().whileTrue(null);
+    // m_controller.a().whileTrue(null);
   }
 
   /**
