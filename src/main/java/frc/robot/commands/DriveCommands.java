@@ -7,6 +7,9 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.XRPDrivetrain;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -121,17 +124,21 @@ public class DriveCommands {
 
   /**
    * A command that sets the speed of the robot based on an arcade control scheme, using an Instant Command.
-   * @param forwardSpeed Speed the robot goes forward.
-   * @param turnSpeed Speed the robot turns.
+   * Because this value is something that changes based on controller input, we want the values to be rechecked periodically.
+   * For this, we use what is called a supplier, which is any function which returns a double.
+   * By using a supplier, instead of the drive speed being a constant 0, the command instead runs the supplier each time it runs to determine the correct speed.
+   * @param forwardSpeed Speed the robot goes forward. Is a supplier, and therefore must be a method or a lambda.
+   * @param turnSpeed Speed the robot turns. Is a supplier, and therefore must be a method or a lambda.
    * @return Command to arcade drive the XRP
    */
-  public static Command arcadeDriveCommand(double forwardSpeed, double turnSpeed){
+  public static Command arcadeDriveCommand(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed){
+    System.out.println("runs");
     //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
     //and the required subsystems.
     //Useful for simple commands.
     return new InstantCommand(
-      //Tells the XRP to drive at the given speeds
-      ()->RobotContainer.m_xrpDrivetrain.arcadeDrive(forwardSpeed, turnSpeed), 
+      //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
+      ()->RobotContainer.m_xrpDrivetrain.arcadeDrive(forwardSpeed.get(), turnSpeed.get()), 
       RobotContainer.m_xrpDrivetrain
       );
   }
