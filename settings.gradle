@@ -1,5 +1,4 @@
 import org.gradle.internal.os.OperatingSystem
-
 pluginManagement {
     repositories {
         mavenLocal()
@@ -25,6 +24,14 @@ pluginManagement {
         }
     }
 }
-
+plugins {
+    id "com.gradle.develocity" version "3.18.1"
+}
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+    }
+}
 Properties props = System.getProperties();
 props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");

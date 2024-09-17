@@ -153,7 +153,6 @@ public class DriveCommands {
      *
      * @param speed The speed which the robot will drive. Negative is in reverse.
      * @param degrees Degrees to turn. Leverages encoders to compare distance.
-     * @param drive The drive subsystem on which this command will run
      */
     public TurnDegrees(double speed, double degrees) {
       m_degrees = degrees;
