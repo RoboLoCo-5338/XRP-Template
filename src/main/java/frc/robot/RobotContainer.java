@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.Servo;
@@ -61,5 +63,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
+  }
+
+  public Command getPathPlannerCommand() {
+    return new PathPlannerAuto("New Auto");
   }
 }
