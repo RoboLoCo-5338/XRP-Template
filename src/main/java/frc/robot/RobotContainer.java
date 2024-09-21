@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -40,6 +41,9 @@ public class RobotContainer {
     m_xrpDrivetrain.setDefaultCommand(DriveCommands.arcadeDriveCommand(()-> -m_controller.getLeftY(), () -> -m_controller.getRightX()));
     //TODO: Task 4-Comment out the above line by adding // to the left of it. Then, set the default command to be your tankDriveCommand.
     //HINT: In tank drive, the left wheel is controlled by the y axis of the left joystick and the y axis of the right joystick.
+    
+    //TODO:Uncomment and modify the below line of code to register a command in pathplanner to allow you to use it in an auto.
+    // NamedCommands.registerCommand("commandDisplayName", command);
   }
 
   /**
