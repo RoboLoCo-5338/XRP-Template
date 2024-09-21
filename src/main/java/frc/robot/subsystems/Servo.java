@@ -1,3 +1,4 @@
+// Credit to Team 5338 for any changes to the base command XRP template.
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.xrp.XRPServo;
