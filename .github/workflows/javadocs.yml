@@ -20,6 +20,7 @@ jobs:
       - name: Deploy javadoc to Github Pages
         uses: dev-vince/actions-publish-javadoc@v1.0.1
         with:
+          ssh-key: ${{secrets.secret_key}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           java-version: "22"
           project: "gradle"
