@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** A file that should contain all the commands that relate to the drivetrain. */
@@ -133,7 +134,6 @@ public class DriveCommands {
    * @return Command to arcade drive the XRP
    */
   public static Command arcadeDriveCommand(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed){
-    System.out.println("runs");
     //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
     //and the required subsystems.
     //Useful for simple commands.
@@ -211,7 +211,8 @@ public class DriveCommands {
   //TurnDegrees(either class or function, choose 1)
 
   /**
-   * Commands can also be sequential, which is where they execute one after another. This is really good for automatic behavior.
+   * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
+   * are commands that execute one after another. This is useful for auto behavior.
    * @return A command that drives forward 5 inches, turns 90 degrees, and drives forward 4 inches.
    */
   public static Command sequentialExampleCommand(){
@@ -222,9 +223,12 @@ public class DriveCommands {
     );
   }
 
+
   //TODO: Task 9-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
   //is less than 2 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
 
   //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
-  //and move the XRP forward 3 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
+  //and move the XRP forward 3 inches while moving the arm to 0 degrees using a by Parallel Command group. Afterwards, test it by replacing 
+  //the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
+  //HINT: Parallel Command Groups are written the same way as Sequential Command Groups.
 }
