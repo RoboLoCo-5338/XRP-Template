@@ -191,23 +191,18 @@ public class DriveCommands {
       */
       double inchPerDegree = Math.PI * 6.102 / 360;
       // Compare distance travelled from start to distance based on degree turn
-      return getAverageTurningDistance() >= (inchPerDegree * m_degrees);
+      return m_drive.getAverageTurningDistance() >= (inchPerDegree * m_degrees);
     }
   
-    private double getAverageTurningDistance() {
-      double leftDistance = Math.abs(m_drive.getLeftDistanceInch());
-      double rightDistance = Math.abs(m_drive.getRightDistanceInch());
-      return (leftDistance + rightDistance) / 2.0;
-    }
   }
 
-  //TODO: Task 1-Rewrite TurnDegrees as a function
+  //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
 
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
-  //TurnDegrees(either class or function, choose 1)
+  //Bonus(optional):TurnDegrees(either class or function, choose 1)
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
@@ -226,7 +221,7 @@ public class DriveCommands {
   //TODO: Task 9-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
   //is less than 2 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
 
-  //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches, set the arm preset to index 1, spin the XRP 360 degrees
+  //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches(you may need to make new Commands or alter existing Commands for this), set the arm preset to index 1, spin the XRP 360 degrees
   //and move the XRP forward 3 inches while moving the arm to 0 degrees using a by Parallel Command group. Afterwards, test it by replacing 
   //the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
   //HINT: Parallel Command Groups are written the same way as Sequential Command Groups.
