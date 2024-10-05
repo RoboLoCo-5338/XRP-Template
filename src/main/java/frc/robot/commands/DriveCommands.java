@@ -201,7 +201,7 @@ public class DriveCommands {
     }
   }
 
-  //TODO: Task 1-Rewrite TurnDegrees as a function
+  //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
 
   //TODO: Task 3-Rewrite the following functions to use tank drive
