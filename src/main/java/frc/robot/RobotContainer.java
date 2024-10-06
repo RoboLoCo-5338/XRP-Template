@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ServoCommands;
+import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +25,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final XRPDrivetrain m_xrpDrivetrain = new XRPDrivetrain();
   public static final Servo m_servo = new Servo();
+  public static final Rangefinder m_rangefinder = new Rangefinder();
   public final CommandXboxController m_controller = new CommandXboxController(0);
 
 
