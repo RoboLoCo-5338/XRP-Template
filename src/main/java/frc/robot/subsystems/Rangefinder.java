@@ -4,10 +4,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.xrp.XRPRangefinder;
 
 public class Rangefinder {
-    private final XRPRangefinder rangefinder;
+    private final XRPRangefinder m_rangefinder;
     public Rangefinder(){
-        rangefinder=new XRPRangefinder();
+        m_rangefinder=new XRPRangefinder();
     }
     //TODO: Task 8-Write a method to get the distance returned by the sensor in inches.
-    //HINT: Type 'rangefinder.' (without quotes) to see all of the different methods the rangefinder has.
+    //HINT: Type 'm_rangefinder.' (without quotes) in a method body to see all of the different methods the rangefinder has.
 }

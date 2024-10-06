@@ -9,9 +9,12 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ServoCommands;
+import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -25,6 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final XRPDrivetrain m_xrpDrivetrain = new XRPDrivetrain();
   public static final Servo m_servo = new Servo();
+  public static final Rangefinder m_rangefinder = new Rangefinder();
   public final CommandXboxController m_controller = new CommandXboxController(0);
 
 
@@ -54,8 +58,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //TODO: Task 7-Uncomment the lines below and replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
     //and the a button moves it down.
-    // m_controller.y().whileTrue(null);
-    // m_controller.a().whileTrue(null);
+    // m_controller.y().whileTrue(new RepeatCommand(null));
+    // m_controller.a().whileTrue(new RepeatCommand(null));
   }
 
   /**
