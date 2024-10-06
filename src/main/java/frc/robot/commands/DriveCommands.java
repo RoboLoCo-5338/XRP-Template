@@ -202,7 +202,7 @@ public class DriveCommands {
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
-  //TurnDegrees(either class or function, choose 1)
+  //Bonus(optional):TurnDegrees(either class or function, choose 1)
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
