@@ -64,14 +64,11 @@ public class XRPDrivetrain extends SubsystemBase {
   public double getAverageDistanceInch() {
     return (getLeftDistanceInch()+getRightDistanceInch())/2;
   }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+  public double getAverageTurningDistance() {
+    double leftDistance = Math.abs(getLeftDistanceInch());
+    double rightDistance = Math.abs(getRightDistanceInch());
+    return (leftDistance + rightDistance) / 2.0;
   }
   // @Override
   // public void periodic() {

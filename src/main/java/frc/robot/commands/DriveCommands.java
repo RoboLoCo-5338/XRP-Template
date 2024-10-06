@@ -191,14 +191,9 @@ public class DriveCommands {
       */
       double inchPerDegree = Math.PI * 6.102 / 360;
       // Compare distance travelled from start to distance based on degree turn
-      return getAverageTurningDistance() >= (inchPerDegree * m_degrees);
+      return m_drive.getAverageTurningDistance() >= (inchPerDegree * m_degrees);
     }
   
-    private double getAverageTurningDistance() {
-      double leftDistance = Math.abs(m_drive.getLeftDistanceInch());
-      double rightDistance = Math.abs(m_drive.getRightDistanceInch());
-      return (leftDistance + rightDistance) / 2.0;
-    }
   }
 
   //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
