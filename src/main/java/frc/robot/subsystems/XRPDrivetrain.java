@@ -105,6 +105,12 @@ public class XRPDrivetrain extends SubsystemBase {
   public void resetPose(Pose2d pose){
     m_Odometry.resetPosition(pose.getRotation(), new DifferentialDriveWheelPositions(0, 0), pose);
   }
+
+  public double getAverageTurningDistance() {
+    double leftDistance = Math.abs(getLeftDistanceInch());
+    double rightDistance = Math.abs(getRightDistanceInch());
+    return (leftDistance + rightDistance) / 2.0;
+  }
   // @Override
   // public void periodic() {
   //   // This method will be called once per scheduler run
