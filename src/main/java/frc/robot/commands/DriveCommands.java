@@ -25,7 +25,7 @@ public class DriveCommands {
    * @return Command that causes the XRP to execute the functions below
    */
   public static Command driveDistance(double distance){
-    //A functional command is returned. A functional command is a basic command with parameters for initialization code, execution code, ending code, a boolean supplier to cause the command to end, and required subsystems.
+    //A functional command is returned. A functional command is a basic command with a constructor with parameters for initialization code, execution code, ending code, a boolean supplier to cause the command to end, and required subsystems.
     return new FunctionalCommand(
       /* 
        * The arrow -> causes the code to be what is called a "lambda". This means that the code is considered to be a method without needing to define it like normal.
@@ -66,6 +66,7 @@ public class DriveCommands {
    * Our team usually uses code that looks like the above command.
    * Usage is basically the same, however add new in front of the function call.
    * Example: new DriveCommands.AltDriveDistance(5)
+   * NOTE: Class Commands do not extend FunctionalCommand, however Function Commands do return FunctionalCommand.
    */
   public static class AltDriveDistance extends Command{
     /**
