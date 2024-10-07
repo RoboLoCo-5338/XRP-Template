@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.xrp.XRPRangefinder;
 
-public class Rangefinder {
+public class Rangefinder extends SubsystemBase{
     private final XRPRangefinder m_rangefinder;
     public Rangefinder(){
         m_rangefinder=new XRPRangefinder();
