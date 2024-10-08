@@ -52,6 +52,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //TODO: Task 7-Uncomment the lines below and replace the null values with the commands you created to move the servo up and down, such that the y button moves it up
     //and the a button moves it down.
+    //BONUS:Complete one of the following: Look into all of the different types of commands in the documentation for WPILib. Try to find a command that does not need to be encapsulated
+    //in a RepeatCommand to repeat, and replace the type of moveServoUp and moveServoDown(or whatever they are called) with that type of Command.
+    //Then, delete the RepeatCommand, because your command should already repeat.
+
     // m_controller.y().whileTrue(new RepeatCommand(null));
     // m_controller.a().whileTrue(new RepeatCommand(null));
   }
