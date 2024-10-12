@@ -76,6 +76,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return getPathPlannerCommand();
     /*return new FunctionalCommand(
       () -> {
         RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
@@ -88,16 +89,16 @@ public class RobotContainer {
     );
     */
     
-    return new SequentialCommandGroup(
-      DriveCommands.tankDriveBackwards(2),
-      ServoCommands.servoPresetCommand(1),
-      //idk if i have to add new to the above line
-      DriveCommands.tankTurnDegrees(1, 360),
-      new ParallelCommandGroup(
-        DriveCommands.tankDriveDistance(3),
-        ServoCommands.servoSetAngleCommand(0)
-      )
-    );
+    // return new SequentialCommandGroup(
+    //   DriveCommands.tankDriveBackwards(2),
+    //   ServoCommands.servoPresetCommand(1),
+    //   //idk if i have to add new to the above line
+    //   DriveCommands.tankTurnDegrees(1, 360),
+    //   new ParallelCommandGroup(
+    //     DriveCommands.tankDriveDistance(3),
+    //     ServoCommands.servoSetAngleCommand(0)
+    //   )
+    // );
     //return DriveCommands.tankDriveDistance(5);
     /*return new SequentialCommandGroup(
       DriveCommands.tankDriveDistance(5),
@@ -106,7 +107,9 @@ public class RobotContainer {
       */
   }
 
-  public Command getPathPlannerCommand() {
-    return new PathPlannerAuto("New Auto");
-  }
+   public Command getPathPlannerCommand() {
+     return new PathPlannerAuto("Test1");
+   }
+
+
 }

@@ -76,6 +76,12 @@ public class XRPDrivetrain extends SubsystemBase {
     arcadeDrive(Math.hypot(speed.vxMetersPerSecond, speed.vyMetersPerSecond),speed.omegaRadiansPerSecond);
   }
 
+  public double getAverageTurningDistance() {
+    double leftDistance = Math.abs(getLeftDistanceInch());
+    double rightDistance = Math.abs(getRightDistanceInch());
+    return (leftDistance + rightDistance) / 2.0;
+  }
+
   public ChassisSpeeds getCurrentSpeeds(){
     return m_speed;
   }
