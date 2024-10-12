@@ -219,6 +219,61 @@ public class DriveCommands {
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
+  public static Command tankDriveDistance(double distance){
+    return new FunctionalCommand(
+      () -> {
+        RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+        RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      () -> RobotContainer.m_xrpDrivetrain.tankDrive(1, 1),
+      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
+      () -> Math.abs(RobotContainer.m_xrpDrivetrain.getAverageDistanceInch()) >= distance,
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
+
+  public static Command tankDriveCommand(Supplier<Double> left_speed, Supplier<Double> right_speed){
+    //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
+    //and the required subsystems.
+    //Useful for simple commands.
+    return new InstantCommand(
+      //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
+      ()->RobotContainer.m_xrpDrivetrain.tankDrive(left_speed.get(), right_speed.get()), 
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
+
+  public static Command tankTurnDegrees(double speed, double degrees){
+    final XRPDrivetrain m_drive = RobotContainer.m_xrpDrivetrain;
+    final double m_speed=speed;
+    if (degrees<0) {
+      final double m_degrees=360*Math.abs(degrees);
+    } else {
+      final double m_degrees=degrees;
+    }
+    //im count 90 degrees as 90 degrees counterclockwise, 270 degrees as 270 degrees ccw aka 90 cw, so on
+    final double m_degrees=degrees%360;
+    return new FunctionalCommand(
+      () -> {
+        m_drive.tankDrive(0, 0);
+        m_drive.resetEncoders();
+      }, 
+      () -> {
+        if (m_degrees>180 && m_degrees<360) {
+          //turn right
+          m_drive.tankDrive(m_speed, 0);  
+        }
+        if (m_degrees<=180 && m_degrees>0) {
+          //turn left
+          m_drive.tankDrive(0,m_speed);
+        }
+      },
+      interrupted -> m_drive.tankDrive(0, 0), 
+      () -> (((Math.abs(m_drive.getLeftDistanceInch())) + (Math.abs(m_drive.getRightDistanceInch())))/2.0) >= ((Math.PI * 6.102 / 360) * m_degrees)
+    ); 
+
+  }  
+
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
