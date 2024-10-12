@@ -11,4 +11,7 @@ public class Rangefinder extends SubsystemBase{
     }
     //TODO: Task 8-Write a method to get the distance returned by the sensor in inches.
     //HINT: Type 'm_rangefinder.' (without quotes) in a method body to see all of the different methods the rangefinder has.
+    public double findRange() {
+        return(m_rangefinder.getDistanceInches());
+    }
 }

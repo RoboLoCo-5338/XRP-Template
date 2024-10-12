@@ -26,6 +26,8 @@ public class ServoCommands {
     public static Command servoAdjustAngleCommand(double adjustAmount) {
         return new RunCommand(
             () -> hiIhopeThisWorks.adjustAngleBy(adjustAmount)
+            //() -> frc.robot.subsystems.Servo.m_armServo.adjustAngleBy(5)
+            //note to self: if hiIhopeThisWorks doesn't work, then do ^^^ and change m_armServo to public
         );
     }
 
