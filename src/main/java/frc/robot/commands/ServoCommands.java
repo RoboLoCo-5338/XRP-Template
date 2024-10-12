@@ -18,28 +18,28 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ServoCommands {
     //private XRPServo test;
-    private static Servo hiIhopeThisWorks = new Servo();
+    //private static Servo hiIhopeThisWorks = new Servo();
     private static Constants constants = new Constants();
 
     //TODO: Task 6-Write commands to move the arm up, down, and to a specific preset. The latter should be done by taking in an integer input.
     //The presets are in the constants file.
     public static Command servoAdjustAngleCommand(double adjustAmount) {
         return new RunCommand(
-            () -> hiIhopeThisWorks.adjustAngleBy(adjustAmount)
-            //() -> frc.robot.subsystems.Servo.m_armServo.adjustAngleBy(5)
+            () -> RobotContainer.m_servo.adjustAngleBy(adjustAmount)
+            //() -> frc.robot.subsystems.Servo.m_armServo.adjustAngleBy() or maybe RobotContainer.m_servo
             //note to self: if hiIhopeThisWorks doesn't work, then do ^^^ and change m_armServo to public
         );
     }
 
     public static Command servoSetAngleCommand(double angle) {
         return new InstantCommand(
-            () -> hiIhopeThisWorks.setAngle(angle)
+            () -> RobotContainer.m_servo.setAngle(angle)
         );
     }
 
     public static Command servoPresetCommand(int index) {
         return new InstantCommand(
-            () -> hiIhopeThisWorks.setAngle(constants.servoPresets[index])
+            () -> RobotContainer.m_servo.setAngle(constants.servoPresets[index])
         );
     }
 }

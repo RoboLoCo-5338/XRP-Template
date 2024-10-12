@@ -11,6 +11,7 @@ import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -67,7 +68,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // The following command will run during autonomous
-    return null;
+    return new FunctionalCommand(
+      () -> {
+        RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+        RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      () -> RobotContainer.m_xrpDrivetrain.tankDrive(1, 1),
+      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
+      () -> (RobotContainer.m_rangefinder.findRange()) <= 2.0,
+      RobotContainer.m_xrpDrivetrain, RobotContainer.m_rangefinder
+    );
   }
 }

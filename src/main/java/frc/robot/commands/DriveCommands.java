@@ -5,11 +5,14 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.XRPDrivetrain;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.xrp.XRPRangefinder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -291,7 +294,19 @@ public class DriveCommands {
 
   //TODO: Task 9-Write a Command(function or class) that causes the XRP to drive until the distance returned by the rangefinder
   //is less than 2 inches. Afterwards, test it by replacing the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
-
+  public static Command driveUntil(){
+    //Rangefinder abc = new Rangefinder();
+    return new FunctionalCommand(
+      () -> {
+        RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+        RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      () -> RobotContainer.m_xrpDrivetrain.tankDrive(1, 1),
+      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
+      () -> (RobotContainer.m_rangefinder.findRange()) <= 2.0,
+      RobotContainer.m_xrpDrivetrain, RobotContainer.m_rangefinder
+    );
+  }
   //TODO: Task 10-Write a Sequential Command Group to move the XRP backwards 2 inches(you may need to make new Commands or alter existing Commands for this), set the arm preset to index 1, spin the XRP 360 degrees
   //and move the XRP forward 3 inches while moving the arm to 0 degrees using a by Parallel Command group. Afterwards, test it by replacing 
   //the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
