@@ -235,6 +235,19 @@ public class DriveCommands {
       );
   }
 
+  public static Command tankDriveBackwards(double distance){
+    return new FunctionalCommand(
+      () -> {
+        RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
+        RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      () -> RobotContainer.m_xrpDrivetrain.tankDrive(-1, -1),
+      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
+      () -> Math.abs(RobotContainer.m_xrpDrivetrain.getAverageDistanceInch()) >= distance,
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
+
   public static Command tankDriveCommand(Supplier<Double> left_speed, Supplier<Double> right_speed){
     //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
     //and the required subsystems.
@@ -262,11 +275,11 @@ public class DriveCommands {
         m_drive.resetEncoders();
       }, 
       () -> {
-        if (m_degrees>180 && m_degrees<360) {
+        if (m_degrees>180) {
           //turn right
           m_drive.tankDrive(m_speed, 0);  
         }
-        if (m_degrees<=180 && m_degrees>0) {
+        if (m_degrees<=180) {
           //turn left
           m_drive.tankDrive(0,m_speed);
         }
@@ -311,4 +324,15 @@ public class DriveCommands {
   //and move the XRP forward 3 inches while moving the arm to 0 degrees using a by Parallel Command group. Afterwards, test it by replacing 
   //the return value of getAutonomousCommand() in RobotContainer and setting it to instead return the command you wrote.
   //HINT: Parallel Command Groups are written the same way as Sequential Command Groups.
+  public static Command autoKinda(){
+    return new SequentialCommandGroup(
+      DriveCommands.tankDriveBackwards(2),
+      ServoCommands.servoPresetCommand(1),
+      DriveCommands.tankTurnDegrees(1, 360),
+      new ParallelCommandGroup(
+        DriveCommands.tankDriveDistance(3),
+        ServoCommands.servoSetAngleCommand(0)
+      )
+    );
+  }
 }

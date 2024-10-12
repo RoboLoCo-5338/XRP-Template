@@ -12,7 +12,9 @@ import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -68,7 +70,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FunctionalCommand(
+    /*return new FunctionalCommand(
       () -> {
         RobotContainer.m_xrpDrivetrain.tankDrive(0, 0);
         RobotContainer.m_xrpDrivetrain.resetEncoders();
@@ -77,6 +79,17 @@ public class RobotContainer {
       interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
       () -> (RobotContainer.m_rangefinder.findRange()) <= 2.0,
       RobotContainer.m_xrpDrivetrain, RobotContainer.m_rangefinder
+    );
+    */
+    return new SequentialCommandGroup(
+      DriveCommands.tankDriveBackwards(2),
+      ServoCommands.servoPresetCommand(1),
+      //idk if i have to add new to the above line
+      DriveCommands.tankTurnDegrees(1, 360),
+      new ParallelCommandGroup(
+        DriveCommands.tankDriveDistance(3),
+        ServoCommands.servoSetAngleCommand(0)
+      )
     );
   }
 }
