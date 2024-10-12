@@ -262,13 +262,15 @@ public class DriveCommands {
   public static Command tankTurnDegrees(double speed, double degrees){
     final XRPDrivetrain m_drive = RobotContainer.m_xrpDrivetrain;
     final double m_speed=speed;
+    /*
     if (degrees<0) {
-      final double m_degrees=360*Math.abs(degrees);
+      final double m_degrees=360-Math.abs(degrees);
     } else {
       final double m_degrees=degrees;
     }
+    */
     //im count 90 degrees as 90 degrees counterclockwise, 270 degrees as 270 degrees ccw aka 90 cw, so on
-    final double m_degrees=degrees%360;
+    final double m_degrees=degrees;
     return new FunctionalCommand(
       () -> {
         m_drive.tankDrive(0, 0);
@@ -277,11 +279,11 @@ public class DriveCommands {
       () -> {
         if (m_degrees>180) {
           //turn right
-          m_drive.tankDrive(m_speed, 0);  
+          m_drive.tankDrive(m_speed, -m_speed);  
         }
         if (m_degrees<=180) {
           //turn left
-          m_drive.tankDrive(0,m_speed);
+          m_drive.tankDrive(-m_speed,m_speed);
         }
       },
       interrupted -> m_drive.tankDrive(0, 0), 
