@@ -204,6 +204,21 @@ public class DriveCommands {
   //TODO: Task 1-Rewrite TurnDegrees as a function
   //Code here:
 
+ public static Command turnDegrees(double speed, double degrees){
+    final XRPDrivetrain m_drive = RobotContainer.m_xrpDrivetrain;
+    final double m_speed=speed;
+    final double m_degrees=degrees;
+    return new FunctionalCommand(
+      () -> {
+        m_drive.arcadeDrive(0, 0);
+        m_drive.resetEncoders();
+      }, 
+      () -> m_drive.arcadeDrive(0, m_speed),  
+      interrupted -> m_drive.arcadeDrive(0, 0), 
+      () -> (((Math.abs(m_drive.getLeftDistanceInch())) + (Math.abs(m_drive.getRightDistanceInch())))/2.0) >= ((Math.PI * 6.102 / 360) * m_degrees)
+    ); 
+
+  }  
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
