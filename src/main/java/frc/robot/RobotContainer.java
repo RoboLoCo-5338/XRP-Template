@@ -57,8 +57,8 @@ public class RobotContainer {
     //in a RepeatCommand to repeat, and replace the type of moveServoUp and moveServoDown(or whatever they are called) with that type of Command.
     //Then, delete the RepeatCommand, because your command should already repeat.
 
-    // m_controller.y().whileTrue(new RepeatCommand(null));
-    // m_controller.a().whileTrue(new RepeatCommand(null));
+    m_controller.y().whileTrue(ServoCommands.servoAdjustAngleCommand(1));
+    m_controller.a().whileTrue(ServoCommands.servoAdjustAngleCommand(-1));
   }
 
   /**

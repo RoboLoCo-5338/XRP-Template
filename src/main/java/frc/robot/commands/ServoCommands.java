@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ServoCommands {
@@ -23,7 +24,7 @@ public class ServoCommands {
     //TODO: Task 6-Write commands to move the arm up, down, and to a specific preset. The latter should be done by taking in an integer input.
     //The presets are in the constants file.
     public static Command servoAdjustAngleCommand(double adjustAmount) {
-        return new InstantCommand(
+        return new RunCommand(
             () -> hiIhopeThisWorks.adjustAngleBy(adjustAmount)
         );
     }
