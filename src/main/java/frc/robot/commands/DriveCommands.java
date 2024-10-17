@@ -199,10 +199,28 @@ public class DriveCommands {
 
   //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
+  public static Command TurnDegrees(double m_degrees, double m_speed){
+    XRPDrivetrain m_drive = RobotContainer.m_xrpDrivetrain;
+    return new FunctionalCommand(()->{m_drive.arcadeDrive(0, 0);m_drive.resetEncoders();},
+    ()->{m_drive.arcadeDrive(0, m_speed);}, interrupt -> {m_drive.arcadeDrive(0, 0);}, 
+    () -> {double inchPerDegree = Math.PI * 6.102 / 360; return m_drive.getAverageTurningDistance() >= (inchPerDegree * m_degrees);} , m_drive
+    );
+  }
 
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
+  
+public static Command tankDriveCommand(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed){
+    //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
+    //and the required subsystems.
+    //Useful for simple commands.
+    return new InstantCommand(
+      //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
+      ()->RobotContainer.m_xrpDrivetrain.tankDrive(),//(forwardSpeed.get(), turnSpeed.get()), 
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
 
   /**
