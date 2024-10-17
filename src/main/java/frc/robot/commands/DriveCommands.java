@@ -197,9 +197,30 @@ public class DriveCommands {
   
   }
 
-  //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
+ //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
-
+public static Command turnDegrees(double degrees, double speed) {
+  double inchPerDegree = Math.PI * 6.102 / 360;
+    return new FunctionalCommand(
+      //param 1, initialization 
+      () -> {
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0);
+      RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      //param 2, calling what the scheduler runs 
+      () -> {
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(0, speed);},
+      //param 2, what happens when ending command-- stop
+      interrupted -> RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0),
+      //param 4 boolean for if command ended
+      () -> {
+        return RobotContainer.m_xrpDrivetrain.getAverageTurningDistance() >= (inchPerDegree * degrees);
+      },
+      //drivetrain is req
+      
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
