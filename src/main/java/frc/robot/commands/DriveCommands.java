@@ -199,8 +199,9 @@ public class DriveCommands {
 
   //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
-  public static Command TurnDegrees (double m_degrees, double m_speed, double inchPerDegree){
+  public static Command TurnDegrees (double m_degrees, double m_speed){
     XRPDrivetrain m_drive= RobotContainer.m_xrpDrivetrain;
+    double inchPerDegree = Math.PI * 6.102 / 360;
     return new FunctionalCommand(()->{m_drive.arcadeDrive(0, 0);m_drive.resetEncoders();},
     ()->{m_drive.arcadeDrive(0, m_speed);},
     interrupt -> {m_drive.arcadeDrive(0, 0);},
