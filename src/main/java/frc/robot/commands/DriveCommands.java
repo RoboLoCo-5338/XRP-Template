@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /** A file that should contain all the commands that relate to the drivetrain. */
 public class DriveCommands {
@@ -199,6 +200,23 @@ public class DriveCommands {
 
   //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
   //Code here:
+public static Command turnDegrees(double degrees, double speed) {
+  double inchPerDegree = Math.PI * 6.102 / 360;
+    return new FunctionalCommand(
+      () -> {
+      RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0);
+      RobotContainer.m_xrpDrivetrain.resetEncoders();
+      }, 
+      
+      () -> {RobotContainer.m_xrpDrivetrain.arcadeDrive(0, speed);},
+
+      interrupted -> RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0),
+      () -> {
+        return RobotContainer.m_xrpDrivetrain.getAverageTurningDistance() >= (inchPerDegree * degrees);
+      },
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
 
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
