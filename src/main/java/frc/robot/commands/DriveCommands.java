@@ -213,6 +213,14 @@ public class DriveCommands {
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
+  //public static Command AltDriveDistance (double distance){
+
+  // }
+  
+    
+
+  
+
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
