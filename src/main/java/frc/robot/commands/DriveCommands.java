@@ -144,6 +144,26 @@ public class DriveCommands {
       );
   }
 
+  /**
+   * A command that sets the speed of the robot based on an arcade control scheme, using an Instant Command.
+   * Because this value is something that changes based on controller input, we want the values to be rechecked periodically.
+   * For this, we use what is called a supplier, which is any function which returns a double.
+   * By using a supplier, instead of the drive speed being a constant 0, the command instead runs the supplier each time it runs to determine the correct speed.
+   * @param forwardSpeed Speed the robot goes forward. Is a supplier, and therefore must be a method or a lambda.
+   * @param turnSpeed Speed the robot turns. Is a supplier, and therefore must be a method or a lambda.
+   * @return Command to arcade drive the XRP
+   */
+  public static Command tankDriveCommand(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed){
+    //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
+    //and the required subsystems.
+    //Useful for simple commands.
+    return new InstantCommand(
+      //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
+      ()->RobotContainer.m_xrpDrivetrain.arcadeDrive(forwardSpeed.get(), turnSpeed.get()), 
+      RobotContainer.m_xrpDrivetrain
+      );
+  }
+
   public static class TurnDegrees extends Command {
     private final double m_degrees;
     private final double m_speed;
@@ -213,9 +233,11 @@ public class DriveCommands {
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
-  //public static Command AltDriveDistance (double distance){
-
-  // }
+  public static Command driveDistance1(double m_distance){
+    return driveDistance{m_distance};
+  }
+  
+  
   
     
 
