@@ -234,10 +234,22 @@ public class DriveCommands {
   //arcadeDriveCommand(rename as tankDriveCommand)
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
   public static Command driveDistance1(double m_distance){
-    return driveDistance{m_distance};
-  }
-  
-  
+    XRPDrivetrain m_diffDrive=RobotContainer.m_xrpDrivetrain;
+    
+    return new FunctionalCommand(() -> {
+        m_diffDrive.tankDrive(0,0); 
+        m_diffDrive.resetEncoders();},
+        () ->{m_diffDrive.tankDrive(1,1);},
+        interrupt -> {m_diffDrive.tankDrive(0,0);},
+        () -> {return Math.abs(m_diffDrive.getAverageDistanceInch()) >=m_distance;},m_diffDrive);
+    
+        }
+        public static Command tankDriveCommand1(Supplier<Double>m_leftMotor, Supplier<Double>m_RightMotor){
+          XRPDrivetrain m_diffDrive=RobotContainer.m_xrpDrivetrain;
+          return new InstandCommand(()-> {
+            m_diffDrive.tankDrive{m_leftMotor.get(), m_rightMotor.get()}, m_diffDrive
+          }
+          );}
   
     
 
