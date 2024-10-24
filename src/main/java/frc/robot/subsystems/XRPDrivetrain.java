@@ -46,7 +46,7 @@ public class XRPDrivetrain extends SubsystemBase {
   }
 
   //TODO:Task 2-Write a function that makes the robot take in a left wheel speed and a right wheel speed, and move at those speeds.
-  public static Command SpeedCommand(double leftSpeed, double rightSpeed){
+  public void SpeedCommand(double leftSpeed, double rightSpeed){
     m_diffDrive.tankDrive(leftSpeed, rightSpeed);
   }
   //HINT:This is called a tank drive, maybe there is a function that can easily allow for it?
