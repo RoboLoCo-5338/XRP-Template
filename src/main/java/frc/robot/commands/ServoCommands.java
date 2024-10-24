@@ -2,6 +2,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
@@ -26,9 +27,15 @@ public class ServoCommands {
     public static Command servoAdjustAngleCommand(double adjustAmount) {
         return new RunCommand(
             () -> RobotContainer.m_servo.adjustAngleBy(adjustAmount)
-            //() -> frc.robot.subsystems.Servo.m_armServo.adjustAngleBy() or maybe RobotContainer.m_servo
-            //note to self: if hiIhopeThisWorks doesn't work, then do ^^^ and change m_armServo to public
+            //AdjustAngleBy code is in Servo.java: m_armServo.setAngle(adjustAmount+m_armServo.getAngle())
+
         );
+    }
+
+    public static Command servoAdjustAngleCommandOnce(double adjustAmount) {
+        return new InstantCommand(
+            () -> RobotContainer.m_servo.adjustAngleBy(adjustAmount)
+            );
     }
 
     public static Command servoSetAngleCommand(double angle) {

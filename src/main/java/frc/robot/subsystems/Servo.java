@@ -23,4 +23,8 @@ public class Servo extends SubsystemBase {
         //makes the current angle larger or smaller by adjusting angle by adjustAmount
         m_armServo.setAngle(adjustAmount+m_armServo.getAngle());
     }
+
+    public double getAngle() {
+        return(m_armServo.getAngle());
+    }
 }
