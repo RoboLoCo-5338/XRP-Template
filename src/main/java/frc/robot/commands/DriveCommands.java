@@ -222,8 +222,23 @@ public static Command turnDegrees(double degrees, double speed) {
   //driveDistance or AltDriveDistance(choose 1)
   //arcadeDriveCommand(rename as tankDriveCommand)
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
-
+  public static class AltDriveDistance extends Command {
+    private double distance;
+    RobotContainer.m_xrpDrivetrain.tankDrive();
+    public AltDriveDistance(double distance) {
+      addRequirements(RobotContainer.m_xrpDrivetrain);
+    }
+    }
   
+  public static Command tankDriveCommand(Supplier<Double> leftspeed, Supplier<Double> rightspeed){
+    return new InstantCommand(
+      //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
+      ()->RobotContainer.m_xrpDrivetrain.tankDrive(leftspeed.get(), rightspeed.get()), 
+      RobotContainer.m_xrpDrivetrain
+      );
+  
+
+
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
    * are commands that execute one after another. This is useful for auto behavior.
