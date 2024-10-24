@@ -38,7 +38,7 @@ public class RobotContainer {
     //This causes the xrp to drive based on the left joystick y and right joystick x of the controller by default.
     //It uses lambdas to make the parameters suppliers, which means that instead of them being constant, they rerun each time the command is scheduled.
     //The values are negated because the axes are flipped for some reason.
-    //m_xrpDrivetrain.setDefaultCommand(DriveCommands.arcadeDriveCommand(()-> -m_controller.getLeftY(), () -> -m_controller.getRightX()));
+    m_xrpDrivetrain.setDefaultCommand(DriveCommands.arcadeDriveCommand(()-> -m_controller.getLeftY(), () -> -m_controller.getRightX()));
     //TODO: Task 4-Comment out the above line by adding // to the left of it. Then, set the default command to be your tankDriveCommand.
     //HINT: In tank drive, the left wheel is controlled by the y axis of the left joystick and the y axis of the right joystick.
     //Priyanshu Kanhere
