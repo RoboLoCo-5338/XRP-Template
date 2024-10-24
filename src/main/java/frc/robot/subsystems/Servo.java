@@ -14,5 +14,10 @@ public class Servo extends SubsystemBase {
     //TODO: Task 5-Write functions to control the arm. You should be able to set the arm's angle and get the angle
     //it is at.
     //HINT: Type 'm_armServo.' (without quotes) in a method body to see all of the different methods the servo has.
-    
+    public void setArmAngle(double Angle) {
+        m_armServo.setAngle(Angle);
+    }
+    public double getArmAngle() {
+        return m_armServo.getAngle();
+    }
 }  
