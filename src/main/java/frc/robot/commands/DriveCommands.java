@@ -39,17 +39,17 @@ public class DriveCommands {
       //The first parameter is what happens upon initialization of the command, aka what should prepare the robot for the command to occur.
       //Causes the XRP to stop to prepare for movement, and resets the sensors that detect how much the wheels have turned.
       () -> {
-        RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0); 
+        RobotContainer.m_xrpDrivetrain.tankDrive(0, 0); 
         RobotContainer.m_xrpDrivetrain.resetEncoders();
       }, 
       
       //The second parameter is what is called every time the scheduler runs while the command is scheduled., aka what the main portion of the command is.
       //Causes the XRP to drive.
-      () -> RobotContainer.m_xrpDrivetrain.arcadeDrive(1, 0),
+      () -> RobotContainer.m_xrpDrivetrain.tankDrive(1, 1),
 
       //The third parameter is what happens upon ending the command.
       //Causes the XRP to stop.
-      interrupted -> RobotContainer.m_xrpDrivetrain.arcadeDrive(0, 0),
+      interrupted -> RobotContainer.m_xrpDrivetrain.tankDrive(0, 0),
 
       //The fourth parameter is the boolean that determines if the command ended.
       //Checks if the average distance traveled by both of the wheels is at least the distance the XRP needs to travel.
@@ -133,13 +133,13 @@ public class DriveCommands {
    * @param turnSpeed Speed the robot turns. Is a supplier, and therefore must be a method or a lambda.
    * @return Command to arcade drive the XRP
    */
-  public static Command arcadeDriveCommand(Supplier<Double> forwardSpeed, Supplier<Double> turnSpeed){
+  public static Command tankDriveCommand(Supplier<Double> leftSpeed, Supplier<Double> rightSpeed){
     //This uses an InstantCommand, which shouldn't be a class. An Instant Command immediately executes, and only takes in fields for what it should do
     //and the required subsystems.
     //Useful for simple commands.
     return new InstantCommand(
       //Tells the XRP to drive at the given speeds by using .get(), which gets the value returned by the supplier
-      ()->RobotContainer.m_xrpDrivetrain.arcadeDrive(forwardSpeed.get(), turnSpeed.get()), 
+      ()->RobotContainer.m_xrpDrivetrain.tankDrive(leftSpeed.get(), rightSpeed.get()), 
       RobotContainer.m_xrpDrivetrain
       );
   }
@@ -223,8 +223,12 @@ public static Command turnDegrees(double degrees, double speed) {
   }
   //TODO: Task 3-Rewrite the following functions to use tank drive
   //driveDistance or AltDriveDistance(choose 1)
+      // CHOSE DRIVEDISTANCE
   //arcadeDriveCommand(rename as tankDriveCommand)
+      //COMPLETED ABOVE
   //Bonus(optional):TurnDegrees(either class or function, choose 1)
+  
+
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups
