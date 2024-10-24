@@ -251,6 +251,16 @@ public class DriveCommands {
           );
             
         }
+        //Bonus
+        public static Command TurnDegrees1(double m_degrees, double m_speed){
+    XRPDrivetrain m_diffDrive= RobotContainer.m_xrpDrivetrain;
+    double inchPerDegree = Math.PI * 6.102 / 360;
+    return new FunctionalCommand(()->{m_diffDrive.tankDrive(0, 0);m_diffDrive.resetEncoders();},
+    ()->{m_diffDrive.tankDrive(0, m_speed);},
+    interrupt -> {m_diffDrive.tankDrive(0, 0);},
+  () -> {return m_diffDrive.getAverageTurningDistance() >= (inchPerDegree * m_degrees);}
+    );
+}
     
 
   
