@@ -43,8 +43,8 @@ public class RobotContainer {
     //HINT: In tank drive, the left wheel is controlled by the y axis of the left joystick and the y axis of the right joystick.
     m_xrpDrivetrain.setDefaultCommand(
       DriveCommands.tankDriveCommand(
-        () -> m_controller.getLeftY(),
-        () -> m_controller.getRightY()
+        () -> m_controller.getLeftY()*-1,
+        () -> m_controller.getRightY()*-1
       )
     )
   }
