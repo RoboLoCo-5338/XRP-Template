@@ -228,7 +228,7 @@ public static Command turnDegrees(double degrees, double speed) {
     public AltDriveDistance(double distance) {
       addRequirements(RobotContainer.m_xrpDrivetrain);
     }
-    }
+  }
   
   public static Command tankDriveCommand(Supplier<Double> leftspeed, Supplier<Double> rightspeed){
     return new InstantCommand(
@@ -236,7 +236,7 @@ public static Command turnDegrees(double degrees, double speed) {
       ()->RobotContainer.m_xrpDrivetrain.tankDrive(leftspeed.get(), rightspeed.get()), 
       RobotContainer.m_xrpDrivetrain
       );
-  
+  }
 
 
   /**
