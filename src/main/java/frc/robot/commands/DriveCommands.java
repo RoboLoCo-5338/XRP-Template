@@ -244,13 +244,13 @@ public class DriveCommands {
         () -> {return Math.abs(m_diffDrive.getAverageDistanceInch()) >=m_distance;},m_diffDrive);
     
         }
-        public static Command tankDriveCommand1(Supplier<Double>m_leftMotor, Supplier<Double>m_RightMotor){
+        public static Command tankDriveCommand1(Supplier<Double>m_leftMotor, Supplier<Double>m_rightMotor){
           XRPDrivetrain m_diffDrive=RobotContainer.m_xrpDrivetrain;
-          return new InstandCommand(()-> {
-            m_diffDrive.tankDrive{m_leftMotor.get(), m_rightMotor.get()}, m_diffDrive
-          }
-          );}
-  
+          return new InstantCommand(()->m_diffDrive.tankDrive(m_leftMotor.get(), m_rightMotor.get()),
+          m_diffDrive
+          );
+            
+        }
     
 
   
