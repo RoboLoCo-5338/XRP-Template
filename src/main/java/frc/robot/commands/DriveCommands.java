@@ -197,13 +197,22 @@ public class DriveCommands {
   
   }
 
-  //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command
+  //TODO: Task 1-Rewrite TurnDegrees as a function that returns a functional command by replacing each null value with the correct code
   //Code here:
-
+  public static Command turnDegreesCommand(double speed, double degrees){
+    return new FunctionalCommand(
+      null, /* This is what runs when the command initializes. */
+      null, /* This happens periodically when the command is executed*/
+      null, /* This is what runs when the command is complete */
+      null, /* This is what determines if the command is complete */
+      null /* This is where you write any and all subsystems used in the command. The drivetrain is RobotContainer.m_xrpDrivetrain. Perhaps you can find
+                            a way to avoid having to type out the entire name of the drivetrain every time you reference it?*/
+    );
+  }
   //TODO: Task 3-Rewrite the following functions to use tank drive
-  //driveDistance or AltDriveDistance(choose 1)
-  //arcadeDriveCommand(rename as tankDriveCommand)
-  //Bonus(optional):TurnDegrees(either class or function, choose 1)
+  //driveDistance or AltDriveDistance(choose 1) (name as tankDriveDistance or TankDriveDistance based on if you chose to rewrite the former or the latter)
+  //arcadeDriveCommand(name as tankDriveCommand)
+  //Bonus(optional):TurnDegrees(either class or function, choose 1) (name as tankTurnDegrees or TankTurnDegrees based on if you chose to rewrite the former or the latter)
 
   /**
    * Commands can also a part of command groups, which are sets of commands that run in certain ways. Sequential Command Groups

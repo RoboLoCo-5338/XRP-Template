@@ -4,9 +4,21 @@
 // Credit to Team 5338 for any changes to the base command XRP template.
 package frc.robot;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.Servo;
+import frc.robot.subsystems.XRPDrivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +30,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private SendableChooser<Integer> m_chooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +41,13 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    for(int i=1; i<=10; i++){
+      m_chooser.addOption("Task " + i, i);
+    }
+    m_chooser.addOption("Task 3 Bonus", 11);
+    m_chooser.addOption("Task 7 Bonus", 12);
+    SmartDashboard.putData("Task Selector", m_chooser);
+    SmartDashboard.putString("What should happen: ", "");
   }
 
   /**
@@ -61,7 +81,122 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    switch (m_chooser.getSelected()) {
+      case 1:
+        SmartDashboard.putString("What should happen: ", "The XRP should turn about 90 degrees(don't worry if it's not accurate!)");
+        DriveCommands.turnDegreesCommand(1, 90).schedule();
+        break;
+      case 2:
+      //TODO for Kavin: Replace the instant commands with runOnce
+        SmartDashboard.putString("What should happen: ", "The XRP should drive straight for 3 seconds, turn right for 2 seconds, turn left for 2 seconds, and then stop.");
+        new SequentialCommandGroup(
+          new ParallelDeadlineGroup(
+            new WaitCommand(3), 
+            new InstantCommand(() -> {
+              try {
+                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, 1);
+                  System.out.println("runs");
+              } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+              }, 
+              RobotContainer.m_xrpDrivetrain
+            )
+          ),
+          new ParallelDeadlineGroup(
+            new WaitCommand(2), 
+            new InstantCommand(() -> {
+              try {
+                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, -1);
+                  System.out.println("runs");
+              } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+              }, 
+              RobotContainer.m_xrpDrivetrain
+            )
+          ),
+          new ParallelDeadlineGroup(
+            new WaitCommand(2), 
+            new InstantCommand(() -> {
+              try {
+                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, -1, 1);
+                  System.out.println("runs");
+              } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+              }, 
+              RobotContainer.m_xrpDrivetrain
+            )
+          ),
+          new InstantCommand(() -> {
+            try {
+                XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 0, 0);
+                System.out.println("runs");
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+              }
+            }, 
+            RobotContainer.m_xrpDrivetrain
+        )).schedule();
+        break;
+      case 3:
+        SmartDashboard.putString("What should happen: ", "The XRP should drive 5 inches(don't worry if it's not accurate!). tankDriveCommand will be tested in Task 4");
+        try {
+          DriveCommands.class.getMethod("tankDriveDistance", double.class).invoke(null, 5);
+        } catch (NoSuchMethodException e) {
+          // TODO Auto-generated catch block
+          try {
+            ((Command) Class.forName("DriveCommands$TankDriveDistance").getDeclaredConstructor(double.class).newInstance()).schedule();
+          } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        break;
+      case 4:
+        SmartDashboard.putString("What should happen: ", "Change the mode from Auto to Teleop. You should now be able to control the XRP using a tank drive scheme!");
+        break;
+      case 5:
+        SmartDashboard.putString("What should happen: ", "The arm should move to 30 degrees, move to 142.5 degrees, and put the number of degrees on SmartDashboard(should be 142.5)");
+        try {
+          Servo.class.getMethod("setServoAngle", double.class).invoke(RobotContainer.m_servo, 30);
+          Servo.class.getMethod("setServoAngle", double.class).invoke(RobotContainer.m_servo, 142.5);
+          SmartDashboard.putNumber("Servo Angle", (Double) Servo.class.getMethod("getServoAngle").invoke(RobotContainer.m_servo));
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+            | SecurityException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        break;
+      case 6:
+        SmartDashboard.putString("What should happen: ", "The XRP should move its servo to each of the presets.");
+        try{
+          
+        }
+        break;
+      case 7:
+        break;
+        case 8:
+        break;
+      case 9:
+        break;
+      case 10:
+        break;
+      case 11:
+        break;
+      case 12:
+        break;
+    }
   }
+  
 
   /** This function is called periodically during autonomous. */
   @Override

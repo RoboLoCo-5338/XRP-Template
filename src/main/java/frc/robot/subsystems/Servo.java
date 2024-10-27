@@ -11,7 +11,7 @@ public class Servo extends SubsystemBase {
         m_armServo = new XRPServo(4);
         
     }
-    //TODO: Task 5-Write functions to control the arm. You should be able to set the arm's angle and get the angle
-    //it is at.
+    //TODO: Task 5-Write functions to control the arm. You should be able to set the arm's angle and get the angle(double)
+    //it is at. The functions should be called setServoAngle and getServoAngle
     //HINT: Type 'm_armServo.' (without quotes) in a method body to see all of the different methods the servo has.
 }
