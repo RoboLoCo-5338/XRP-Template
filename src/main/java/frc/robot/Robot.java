@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ServoCommands;
 import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
@@ -149,7 +150,7 @@ public class Robot extends TimedRobot {
       case 3:
         SmartDashboard.putString("What should happen: ", "The XRP should drive 5 inches(don't worry if it's not accurate!). tankDriveCommand will be tested in Task 4");
         try {
-          DriveCommands.class.getMethod("tankDriveDistance", double.class).invoke(null, 5);
+          ((Command) DriveCommands.class.getMethod("tankDriveDistance", double.class).invoke(null, 5)).schedule();
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
@@ -170,6 +171,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("What should happen: ", "The arm should move to 30 degrees, move to 142.5 degrees, and put the number of degrees on SmartDashboard(should be 142.5)");
         try {
           Servo.class.getMethod("setServoAngle", double.class).invoke(RobotContainer.m_servo, 30);
+          double t=System.currentTimeMillis();
+          while(System.currentTimeMillis()-t<=50){}
           Servo.class.getMethod("setServoAngle", double.class).invoke(RobotContainer.m_servo, 142.5);
           SmartDashboard.putNumber("Servo Angle", (Double) Servo.class.getMethod("getServoAngle").invoke(RobotContainer.m_servo));
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
@@ -180,6 +183,24 @@ public class Robot extends TimedRobot {
         break;
       case 6:
         SmartDashboard.putString("What should happen: ", "The XRP should move its servo to each of the presets.");
+        for(int i=0; i<4; i++){
+          try {
+            ( (Command) ServoCommands.class.getMethod("servoPresetCommand", int.class).invoke(null, i)).schedule();
+          } 
+          catch(NoSuchMethodException e){
+            try {
+              ((Command) Class.forName("ServoCommands$ServoPresetCommand").getDeclaredConstructor(int.class).newInstance(i)).schedule();
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e1) {
+              // TODO Auto-generated catch block
+              e1.printStackTrace();
+            }
+          } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+              | SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        }
         break;
       case 7:
         SmartDashboard.putString("What should happen: ", "Change the mode from Auto to Teleop. You should now be able to control the XRP's servo!");
@@ -191,7 +212,7 @@ public class Robot extends TimedRobot {
       case 9:
         SmartDashboard.putString("What should happen: ", "The XRP should execute the command and move until an object in front of it is less than 2 inches away.");
         try {
-          DriveCommands.class.getMethod("driveToWall").invoke(null);
+          ((Command) DriveCommands.class.getMethod("driveToWall").invoke(null)).schedule();
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
@@ -206,11 +227,34 @@ public class Robot extends TimedRobot {
         }
         break;
       case 10:
-        SmartDashboard.putString("What should happen: ", "Change the mode from Auto to Teleop. You should now be able to control the XRP using a tank drive scheme!");
+        SmartDashboard.putString("What should happen: ", "The XRP should now go through the Parallel Command Group you programmed!");
+        try {
+          ((Command) DriveCommands.class.getMethod("sequentialCommand").invoke(null)).schedule();
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+            | SecurityException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         break;
       case 11:
+        SmartDashboard.putString("What should happen: ", "The XRP should turn 38 degrees(don't worry if its not accurate!)");
+        try {
+          ((Command) DriveCommands.class.getMethod("tankTurnDegrees", double.class).invoke(null, 38)).schedule();
+        } catch (NoSuchMethodException e) {
+          // TODO Auto-generated catch block
+          try {
+            ((Command) Class.forName("DriveCommands$TankTurnDegrees").getDeclaredConstructor(double.class).newInstance(38)).schedule();
+          } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         break;
       case 12:
+        SmartDashboard.putString("What should happen: ", "The XRP's servo should now continuously move without a RepeatCommand!");
         break;
     }
   }
