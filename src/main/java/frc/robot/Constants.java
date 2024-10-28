@@ -13,5 +13,6 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static double[] servoPresets={20, 90, 10, 50};
+    public static final double[] servoPresets={20, 90, 10, 50};
+    public static final double servoDegreesPerSecond=600;
 }

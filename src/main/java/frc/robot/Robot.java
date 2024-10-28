@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.Rangefinder;
 import frc.robot.subsystems.Servo;
 import frc.robot.subsystems.XRPDrivetrain;
 
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private SendableChooser<Integer> m_chooser = new SendableChooser<>();
+  private boolean showingSensorDistance = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -78,9 +80,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
     switch (m_chooser.getSelected()) {
       case 1:
         SmartDashboard.putString("What should happen: ", "The XRP should turn about 90 degrees(don't worry if it's not accurate!)");
@@ -151,7 +153,7 @@ public class Robot extends TimedRobot {
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
-            ((Command) Class.forName("DriveCommands$TankDriveDistance").getDeclaredConstructor(double.class).newInstance()).schedule();
+            ((Command) Class.forName("DriveCommands$TankDriveDistance").getDeclaredConstructor(double.class).newInstance(5)).schedule();
           } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -178,17 +180,33 @@ public class Robot extends TimedRobot {
         break;
       case 6:
         SmartDashboard.putString("What should happen: ", "The XRP should move its servo to each of the presets.");
-        try{
-          
-        }
         break;
       case 7:
+        SmartDashboard.putString("What should happen: ", "Change the mode from Auto to Teleop. You should now be able to control the XRP's servo!");
         break;
-        case 8:
+      case 8:
+        SmartDashboard.putString("What should happen: ", "You should now see the distance the rangefinder reads!");
+        showingSensorDistance=true;
         break;
       case 9:
+        SmartDashboard.putString("What should happen: ", "The XRP should execute the command and move until an object in front of it is less than 2 inches away.");
+        try {
+          DriveCommands.class.getMethod("driveToWall").invoke(null);
+        } catch (NoSuchMethodException e) {
+          // TODO Auto-generated catch block
+          try {
+            ((Command) Class.forName("DriveCommands$DriveToWall").getDeclaredConstructor().newInstance()).schedule();
+          } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+          }
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         break;
       case 10:
+        SmartDashboard.putString("What should happen: ", "Change the mode from Auto to Teleop. You should now be able to control the XRP using a tank drive scheme!");
         break;
       case 11:
         break;
@@ -200,7 +218,16 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    if(showingSensorDistance)
+      try {
+        SmartDashboard.putNumber("Rangefinder Distance", (double) Rangefinder.class.getMethod("getDistance").invoke(RobotContainer.m_rangefinder));
+      } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+          | SecurityException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+  }
 
   @Override
   public void teleopInit() {

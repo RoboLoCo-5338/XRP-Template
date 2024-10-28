@@ -9,6 +9,6 @@ public class Rangefinder extends SubsystemBase{
     public Rangefinder(){
         m_rangefinder=new XRPRangefinder();
     }
-    //TODO: Task 8-Write a method to get the distance returned by the sensor in inches.
+    //TODO: Task 8-Write a method to get the distance returned by the sensor in inches. Name it getDistance
     //HINT: Type 'm_rangefinder.' (without quotes) in a method body to see all of the different methods the rangefinder has.
 }

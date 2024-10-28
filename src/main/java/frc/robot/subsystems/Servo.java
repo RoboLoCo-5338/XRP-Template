@@ -9,7 +9,6 @@ public class Servo extends SubsystemBase {
     public Servo(){
         // Device number 4 maps to the physical Servo 1 port on the XRP
         m_armServo = new XRPServo(4);
-        
     }
     //TODO: Task 5-Write functions to control the arm. You should be able to set the arm's angle and get the angle(double)
     //it is at. The functions should be called setServoAngle and getServoAngle
