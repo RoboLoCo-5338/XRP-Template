@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveCommands;
@@ -95,10 +96,9 @@ public class Robot extends TimedRobot {
         new SequentialCommandGroup(
           new ParallelDeadlineGroup(
             new WaitCommand(3), 
-            new InstantCommand(() -> {
+            new RunCommand(() -> {
               try {
-                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, 1);
-                  System.out.println("runs");
+                  XRPDrivetrain.class.getMethod("tankDrive", double.class, double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, 1);
               } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -109,10 +109,9 @@ public class Robot extends TimedRobot {
           ),
           new ParallelDeadlineGroup(
             new WaitCommand(2), 
-            new InstantCommand(() -> {
+            new RunCommand(() -> {
               try {
-                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, -1);
-                  System.out.println("runs");
+                  XRPDrivetrain.class.getMethod("tankDrive", double.class, double.class).invoke(RobotContainer.m_xrpDrivetrain, 1, -1);
               } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -123,10 +122,9 @@ public class Robot extends TimedRobot {
           ),
           new ParallelDeadlineGroup(
             new WaitCommand(2), 
-            new InstantCommand(() -> {
+            new RunCommand(() -> {
               try {
-                  XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, -1, 1);
-                  System.out.println("runs");
+                  XRPDrivetrain.class.getMethod("tankDrive", double.class, double.class).invoke(RobotContainer.m_xrpDrivetrain, -1, 1);
               } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -137,8 +135,7 @@ public class Robot extends TimedRobot {
           ),
           new InstantCommand(() -> {
             try {
-                XRPDrivetrain.class.getMethod("arcadeDrive", double.class).invoke(RobotContainer.m_xrpDrivetrain, 0, 0);
-                System.out.println("runs");
+                XRPDrivetrain.class.getMethod("tankDrive", double.class, double.class).invoke(RobotContainer.m_xrpDrivetrain, 0, 0);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                   // TODO Auto-generated catch block
                   e.printStackTrace();
@@ -154,7 +151,7 @@ public class Robot extends TimedRobot {
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
-            ((Command) Class.forName("DriveCommands$TankDriveDistance").getDeclaredConstructor(double.class).newInstance(5)).schedule();
+            ((Command) Class.forName("frc.robot.commands.DriveCommands$TankDriveDistance").getDeclaredConstructor(double.class).newInstance(5)).schedule();
           } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -189,7 +186,7 @@ public class Robot extends TimedRobot {
           } 
           catch(NoSuchMethodException e){
             try {
-              ((Command) Class.forName("ServoCommands$ServoPresetCommand").getDeclaredConstructor(int.class).newInstance(i)).schedule();
+              ((Command) Class.forName("frc.robot.commands.ServoCommands$ServoPresetCommand").getDeclaredConstructor(int.class).newInstance(i)).schedule();
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e1) {
               // TODO Auto-generated catch block
@@ -216,7 +213,7 @@ public class Robot extends TimedRobot {
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
-            ((Command) Class.forName("DriveCommands$DriveToWall").getDeclaredConstructor().newInstance()).schedule();
+            ((Command) Class.forName("frc.robot.commands.DriveCommands$DriveToWall").getDeclaredConstructor().newInstance()).schedule();
           } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -243,7 +240,7 @@ public class Robot extends TimedRobot {
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
           try {
-            ((Command) Class.forName("DriveCommands$TankTurnDegrees").getDeclaredConstructor(double.class).newInstance(38)).schedule();
+            ((Command) Class.forName("frc.robot.commands.DriveCommands$TankTurnDegrees").getDeclaredConstructor(double.class).newInstance(38)).schedule();
           } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
